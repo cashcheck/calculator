@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Calculator</title>
+  <meta charset="UTF-8"/>
+  <link href='style.css' rel='stylesheet'>
+</head>
+<body>
+<h1>Calculator</h1>
+<div id='container'>
+
+<div id='display'>
+<div id='top'></div>
+<div id='bottom'></div>
+</div>
+
+<div id='row 1' class='button-row'>
+<button class='input'>1</button>
+<button class='input'>2</button>
+<button class='input'>3</button>
+<button class='clear'>C</button>
+</div>
+
+<div id='row 2' class='button-row'>
+<button class='input'>4</button>
+<button class='input'>5</button>
+<button class='input'>6</button>
+<button class='operation'>+</button>
+</div>
+
+<div id='row 3' class='button-row'>
+<button class='input'>7</button>
+<button class='input'>8</button>
+<button class='input'>9</button>
+<button class='operation'>-</button>
+</div>
+
+<div id='row 4' class='button-row'>
+<button class='operation'>*</button>
+<button class='input'>0</button>
+<button class='operation'>/</button>
+<button id='result'>=</button>
+</div>
+
+</div>
+</body>
+</html>
+
+<script>
+
+//defining variables for display
+
+let bottomDisplay = document.querySelector('#bottom')
+
+let topDisplay = document.querySelector('#top')
+
+//looping through number buttons and adding eventListener
+
+const inputs = document.querySelectorAll('.input')
+
+inputs.forEach(function(input) {
+
+input.addEventListener('click', function() {
+
+data = input.textContent;
+
+bottomDisplay.textContent += data;
+
+})
+
+})
+
+//loop through operations and adding eventlistener
+
+const operations = document.querySelectorAll('.operation')
+
+operations.forEach(function(operation) {
+
+operation.addEventListener('click', function() {
+
+data = operation.textContent;
+
+if (bottomDisplay.textContent.includes('+') || bottomDisplay.textContent.includes('-') || 
+bottomDisplay.textContent.includes('*') || bottomDisplay.textContent.includes('/')) {
+
+getResult();
+bottomDisplay.textContent += data;
+
+}
+
+else {
+
+bottomDisplay.textContent += data;
+
+}
+
+})
+
+})
+
+//clear function which clears both displays
+
+const clearButton = document.querySelector('.clear');
+clearButton.addEventListener('click', clear)
+
+function clear() {
+topDisplay.textContent = '';
+bottomDisplay.textContent = '';
+}
+
+result = document.querySelector('#result')
+result.addEventListener('click', getResult)
+
+// whenever function is called it gets the result of what is currently in the bottomDisplay and transfers
+// the equation to the top display
+
+function getResult() {
+
+
+let equation = bottomDisplay.textContent;
+topDisplay.textContent = equation;
+
+console.log(equation);
+
+let equationArray = 
+(equation.includes('+')) ? equation.split('+')
+: (equation.includes('-')) ? equation.split('-')
+: (equation.includes('*')) ? equation.split('*')
+: equation.split('/');
+
+
+(equation.includes('+')) ? equationArray.push('+')
+: (equation.includes('-')) ? equationArray.push('-')
+: (equation.includes('*')) ? equationArray.push('*')
+: equationArray.push('/');
+
+console.log(equationArray)
+
+bottomDisplay.textContent = operate(equationArray[2], equationArray[0], equationArray[1]);
+
+}
+
+
+//operate function which calls operation functions based on operator and numbers
+
+function operate(operator,a,b) {
+    if (operator == "+") {
+        return add(a,b);
+    }
+    else if (operator == "-") {
+        return subtract(a,b);
+    }
+    else if (operator == "*") {
+        return multiply(a,b);
+    }
+    else if (operator == "/") {
+        return divide(a,b);
+    }
+}
+
+//operation functinos for calculator
+
+function add(a,b) {
+    a = Number(a);
+    b = Number(b);
+    return a+b;
+}
+
+function subtract(a,b) {
+    a = Number(a);
+    b = Number(b)
+    return a-b;
+}
+
+function multiply(a,b) {
+    a = Number(a);
+    b = Number(b)
+    return a*b;
+}
+
+function divide(a,b) {
+    a = Number(a);
+    b = Number(b)
+    return a/b;
+}
+
+    
+
+
+</script>
